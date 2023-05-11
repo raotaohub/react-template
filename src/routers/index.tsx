@@ -54,6 +54,17 @@ export const rootRouter: RouteObject[] = [
         element: Invoices,
         children: [
           {
+            index: true,
+            element: (
+              <div>
+                <p>Index-Router配置的用法说明</p>
+                <p>
+                  https://reactrouter.com/en/main/start/concepts#index-routes
+                </p>
+              </div>
+            ),
+          },
+          {
             path: "/layout/invoices/:invoiceId",
             // element: <Invoice />,
             element: Invoice,
