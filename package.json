@@ -1,9 +1,9 @@
 {
-  "name": "react-wp5",
+  "name": "react-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "keywords": [],
+  "keywords": ["react18","sentry","react-router-dom-6","webpack5"],
   "author": "",
   "license": "ISC",
   "scripts": {
