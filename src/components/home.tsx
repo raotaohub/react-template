@@ -8,7 +8,7 @@ export default function Home() {
         <h2>Welcome to the home page</h2>
       </main>
       <nav>
-        <Link to='/about'>about</Link>
+        <Link to="/about">about</Link>
       </nav>
     </div>
   )

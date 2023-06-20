@@ -29,16 +29,16 @@ let invoices: any[] = [
     amount: '$4,600',
     due: '01/27/2998',
   },
-];
+]
 
 export function getInvoices() {
-  return invoices;
+  return invoices
 }
 
 export function getInvoice(number: number) {
-  return invoices.find((invoice) => invoice.number === number);
+  return invoices.find((invoice) => invoice.number === number)
 }
 
 export function deleteInvoice(number: any) {
-  invoices = invoices.filter((invoice) => invoice.number !== number);
+  invoices = invoices.filter((invoice) => invoice.number !== number)
 }

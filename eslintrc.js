@@ -1,5 +1,5 @@
 module.exports = {
-    globals: {
-        __WORKER__: 'readonly'
-    }
+  globals: {
+    __WORKER__: 'readonly',
+  },
 }

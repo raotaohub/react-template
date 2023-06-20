@@ -4,26 +4,28 @@ import { getInvoices } from '../data/data'
 
 function QueryNavLink({ to, ...props }: any) {
   // 自定义行为
-  let location = useLocation()
+  const location = useLocation()
   return <NavLink to={to + location.search} {...props} />
 }
 
 function BrandLink({ brand, ...props }: any) {
   let [params] = useSearchParams()
-  let isActive = params.getAll('brand').includes(brand)
+  const isActive = params.getAll('brand').includes(brand)
   if (!isActive) {
     params.append('brand', brand)
   } else {
     params = new URLSearchParams(
-      Array.from(params).filter(([key, value]) => key !== 'brand' || value !== brand)
+      Array.from(params).filter(([key, value]) => key !== 'brand' || value !== brand),
     )
   }
-  return <Link style={{ color: isActive ? 'red' : '' }} to={`/shoes?${params.toString()}`} {...props} />
+  return (
+    <Link style={{ color: isActive ? 'red' : '' }} to={`/shoes?${params.toString()}`} {...props} />
+  )
 }
 
 export default function Invoices() {
-  let invoices = getInvoices()
-  let [searchParams, setSearchParams] = useSearchParams()
+  const invoices = getInvoices()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   return (
     <div style={{ display: 'flex' }}>
@@ -35,8 +37,8 @@ export default function Invoices() {
       >
         <input
           value={searchParams.get('filter') || ''}
-          onChange={event => {
-            let filter = event.target.value
+          onChange={(event) => {
+            const filter = event.target.value
             if (filter) {
               setSearchParams({ filter })
             } else {
@@ -46,13 +48,13 @@ export default function Invoices() {
         />
 
         {invoices
-          .filter(invoice => {
-            let filter = searchParams.get('filter')
+          .filter((invoice) => {
+            const filter = searchParams.get('filter')
             if (!filter) return true
-            let name = invoice.name.toLowerCase()
+            const name = invoice.name.toLowerCase()
             return name.indexOf(filter.toLowerCase()) > -1
           })
-          .map(invoice => (
+          .map((invoice) => (
             <NavLink
               className={({ isActive }) => (isActive ? 'cur-pointer' : '')}
               style={({ isActive }) => {
