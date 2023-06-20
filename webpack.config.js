@@ -5,6 +5,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TsconfigPahtsPlugin = require('tsconfig-paths-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isDev = process.env.NODE_ENV === 'development' // 是否是开发模式
 
@@ -25,14 +26,6 @@ const config = {
     hot: true,
     proxy: {},
   },
-  // experiments: {
-  //   lazyCompilation: true,
-  // },
-  // externals: {
-  //   react: "react",
-  //   "react-dom": "ReactDOM",
-  //   "react-router-dom": "reactRouterDOM",
-  // },
   devtool: isDev ? 'eval-cheap-module-source-map' : false,
   mode: isDev ? 'development' : 'production',
   cache: {
@@ -44,11 +37,6 @@ const config = {
   },
   module: {
     rules: [
-      {
-        test: /\.(t|j)sx?$/,
-        use: 'babel-loader',
-        exclude: /node_modules/,
-      },
       {
         test: /\.(js|jsx|ts|tsx)?$/,
         exclude: /node_modules/,
@@ -86,6 +74,7 @@ const config = {
     }),
     new LodashModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -101,6 +90,12 @@ const config = {
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
+        basic: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom|lodash)[\\/]/,
+          chunks: 'initial',
+          enforce: true,
+          name: 'basic',
+        },
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
@@ -110,6 +105,12 @@ const config = {
           test: /src\/worker/,
           name: 'worker',
           chunks: 'all',
+        },
+        common: {
+          chunks: 'all',
+          minChunks: 2,
+          enforce: true,
+          name: 'common',
         },
       },
     },
