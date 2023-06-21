@@ -12,15 +12,16 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "clean": "rimraf dist",
+    "start": "webpack serve --hot --mode development",
     "build-dev": "npm run clean && webpack --mode development",
     "build-prod": "npm run clean && webpack --mode production",
-    "start": "webpack serve --hot --mode development",
     "format": "prettier --write .",
     "lint": "npm run lint:ts && npm run lint:js && npm run lint:style",
     "lint:style": "stylelint --config .stylelintrc.js src/**/*.{less,css} --cache",
     "lint:ts": "eslint --ext tsx --ext ts src --cache && tsc --noEmit",
-    "lint:js": "eslint --ext js src --cache"
+    "lint:js": "eslint --ext js src --cache",
+    "clean:dist": "rimraf dist",
+    "clean:pgk": "rimraf node_modules"
   },
   "dependencies": {
     "@sentry/react": "^7.17.4",
@@ -61,12 +62,12 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "terser-webpack-plugin": "^5.3.6",
-    "tsconfig-paths-webpack-plugin": "^4.0.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.1",
     "typescript": "^4.7.4",
     "url-loader": "^4.1.1",
-    "webpack": "^5.73.0",
+    "webpack": "^5.87.0",
     "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
