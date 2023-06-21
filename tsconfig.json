@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es6",
+    "module": "ESNext",
+    "target": "ES6",
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "allowJs": true,
@@ -12,14 +12,16 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "lib": ["DOM", "ESNext", "ES2017"],
+    "lib": ["DOM", "ES6", "ES2017"],
     "jsx": "react",
     "baseUrl": "./",
+    "outDir": "./",
     "paths": {
       "@components/*": ["./src/components/*"],
       "@view/*": ["./src/view/*"]
     }
   },
+  "exclude": ["node_modules", "playground", "dist", "public"],
   "include": ["src"]
   // "files": ["./node_modules/alloy-worker/lib/typings/index.d.ts"]
 }

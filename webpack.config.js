@@ -57,13 +57,33 @@ const config = {
         ],
       },
       {
-        test: new RegExp('\\.(gif|jpg|png|woff|svg|eot|ttf)\\??.*$'),
-        loader: 'url-loader',
-        options: {
-          limit: 1024,
-          name: '[name].[ext]',
+        // https://webpack.js.org/guides/asset-modules/
+        test: /\.(jpe?g|png|svg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext][query]', // output
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 200 * 1024, // 200kb
+          },
         },
       },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'font/[name].[hash:6][ext]',
+        },
+      },
+      // {
+      //   test: new RegExp('\\.(gif|jpg|png|woff|svg|eot|ttf)\\??.*$'),
+      //   loader: 'url-loader',
+      //   options: {
+      //     limit: 1024,
+      //     name: '[name].[ext]',
+      //   },
+      // },
     ],
   },
   plugins: [
@@ -71,6 +91,9 @@ const config = {
       template: path.resolve(__dirname, './public/index.html'),
       inject: true,
       hash: true,
+    }),
+    new webpack.DefinePlugin({
+      'process.IS_DEV': JSON.stringify(isDev),
     }),
     new LodashModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
@@ -122,7 +145,7 @@ const config = {
 module.exports = (env, argv) => {
   if (argv.hot) {
     // Cannot use 'contenthash' when hot reloading is enabled.
-    config.output.filename = '[name].[hash].js'
+    config.output.filename = '[name].[chunkhash].js'
   }
 
   return config
