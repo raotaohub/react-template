@@ -81,14 +81,6 @@ const config = {
           filename: 'font/[name].[hash:6][ext]',
         },
       },
-      // {
-      //   test: new RegExp('\\.(gif|jpg|png|woff|svg|eot|ttf)\\??.*$'),
-      //   loader: 'url-loader',
-      //   options: {
-      //     limit: 1024,
-      //     name: '[name].[ext]',
-      //   },
-      // },
     ],
   },
   plugins: [
@@ -159,10 +151,5 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  // if (argv.hot) {
-  //   // Cannot use 'contenthash' when hot reloading is enabled.
-  //   config.output.filename = '[name].[chunkhash].js'
-  // }
-
   return config
 }
