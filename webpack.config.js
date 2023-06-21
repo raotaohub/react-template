@@ -6,6 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TsconfigPahtsPlugin = require('tsconfig-paths-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const isDev = process.env.NODE_ENV === 'development' // 是否是开发模式
 
@@ -44,7 +46,10 @@ const config = {
         options: {
           cacheDirectory: isDev,
           presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-          plugins: [['@babel/plugin-transform-runtime', { regenerator: true }]],
+          plugins: [
+            isDev && require.resolve('react-refresh/babel'),
+            ['@babel/plugin-transform-runtime', { regenerator: true }],
+          ],
         },
       },
       {
@@ -65,7 +70,7 @@ const config = {
         },
         parser: {
           dataUrlCondition: {
-            maxSize: 200 * 1024, // 200kb
+            maxSize: 100 * 1024, // 100kb
           },
         },
       },
@@ -87,6 +92,7 @@ const config = {
     ],
   },
   plugins: [
+    new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
       inject: true,
@@ -137,16 +143,26 @@ const config = {
         },
       },
     },
-    minimize: true,
-    minimizer: [new TerserPlugin()],
+    // minimize: true, // dev
+    minimizer: [
+      new TerserPlugin({
+        parallel: true, // 开启多线程压缩
+        terserOptions: {
+          compress: {
+            pure_funcs: ['console.log'],
+          },
+        },
+      }),
+      new CssMinimizerPlugin(),
+    ],
   },
 }
 
 module.exports = (env, argv) => {
-  if (argv.hot) {
-    // Cannot use 'contenthash' when hot reloading is enabled.
-    config.output.filename = '[name].[chunkhash].js'
-  }
+  // if (argv.hot) {
+  //   // Cannot use 'contenthash' when hot reloading is enabled.
+  //   config.output.filename = '[name].[chunkhash].js'
+  // }
 
   return config
 }
