@@ -22,7 +22,7 @@
 8. resolve.extensions
 9. lazy / suspense
 10. [hash]
-11. development 模式少配置 bundle 优化，就是上述这些。 因为开发环境可以不
+11. development 模式少配置 bundle 优化。
 
 ## 性能监控工具 sentry 接入
 

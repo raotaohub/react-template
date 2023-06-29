@@ -32,6 +32,7 @@ export default App
 
 const worker = new Worker(new URL('./deep-thought.worker.js', import.meta.url))
 console.log('import.meta.url', import.meta.url)
+console.log('worker', worker)
 
 worker.postMessage({
   question: 'The Answer to the Ultimate Question of Life, The Universe, and Everything.',

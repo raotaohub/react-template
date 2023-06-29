@@ -7,7 +7,7 @@ function computeCount() {
 }
 self.onmessage = async ({ data: { question } }) => {
   const count = await computeCount()
-
+  console.log('question', question)
   self.postMessage({
     answer: count,
   })
