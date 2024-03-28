@@ -12,10 +12,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "lib": ["DOM", "ES6", "ES2017"],
+    "lib": ["DOM", "ES6", "ESNext"],
     "jsx": "react",
     "baseUrl": "./",
-    "outDir": "./",
     "paths": {
       "@components/*": ["./src/components/*"],
       "@view/*": ["./src/view/*"]
@@ -23,5 +22,4 @@
   },
   "exclude": ["node_modules", "playground", "dist", "public"],
   "include": ["src"]
-  // "files": ["./node_modules/alloy-worker/lib/typings/index.d.ts"]
 }
