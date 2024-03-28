@@ -13,7 +13,7 @@ export default function Home() {
         <h2>i am editing.</h2>
       </main>
       <nav>
-        <Link to="/about">about</Link>
+        <Link to="/layout/about">about</Link>
       </nav>
     </div>
   )
