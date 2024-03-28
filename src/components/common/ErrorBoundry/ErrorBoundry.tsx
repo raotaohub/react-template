@@ -1,116 +1,116 @@
-import React from 'react'
+import React from "react";
 
 export type FallbackElement = React.ReactElement<
-  unknown,
-  string | React.FC | typeof React.Component
-> | null
+	unknown,
+	string | React.FC | typeof React.Component
+> | null;
 
 export interface FallbackProps {
-  error: Error
-  resetErrorBoundary: () => void
+	error: Error;
+	resetErrorBoundary: () => void;
 }
 
-export declare function FallbackRender(props: FallbackProps): FallbackElement
+export declare function FallbackRender(props: FallbackProps): FallbackElement;
 
 type Props = {
-  /**
-   * 出错时渲染的元素,和 fallbackRender , FallbackComponent 三选一即可
-   */
-  fallback?: FallbackElement
-  /**
-   * 出错时渲染的组件
-   */
-  FallbackComponent?: React.ComponentType<FallbackProps>
-  children?: React.ReactNode
-  /**
-   * 出错时的回调函数
-   */
-  fallbackRender?: typeof FallbackRender
-  /**
-   * 出错时的回调
-   */
-  onError?: (error: Error, info: string) => void
-  /**
-   * 重试时的回调
-   */
-  onReset?: () => void
-}
+	/**
+	 * 出错时渲染的元素,和 fallbackRender , FallbackComponent 三选一即可
+	 */
+	fallback?: FallbackElement;
+	/**
+	 * 出错时渲染的组件
+	 */
+	FallbackComponent?: React.ComponentType<FallbackProps>;
+	children?: React.ReactNode;
+	/**
+	 * 出错时的回调函数
+	 */
+	fallbackRender?: typeof FallbackRender;
+	/**
+	 * 出错时的回调
+	 */
+	onError?: (error: Error, info: string) => void;
+	/**
+	 * 重试时的回调
+	 */
+	onReset?: () => void;
+};
 
 type State = {
-  error: Error | null
-}
+	error: Error | null;
+};
 
 class ErrorBoundary extends React.Component<Props, State> {
-  state: State = { error: null }
-  updatedWithError = false
+	state: State = { error: null };
+	updatedWithError = false;
 
-  static getDerivedStateFromError(error: Error) {
-    return { error }
-  }
+	static getDerivedStateFromError(error: Error) {
+		return { error };
+	}
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo.componentStack)
-    }
-  }
+	componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+		if (this.props.onError) {
+			this.props.onError(error, errorInfo.componentStack);
+		}
+	}
 
-  reset = () => {
-    this.updatedWithError = false
-    this.setState({ error: null })
-  }
+	reset = () => {
+		this.updatedWithError = false;
+		this.setState({ error: null });
+	};
 
-  resetErrorBoundary = () => {
-    this.props.onReset?.()
-    this.reset()
-  }
+	resetErrorBoundary = () => {
+		this.props.onReset?.();
+		this.reset();
+	};
 
-  render() {
-    const { fallback, FallbackComponent, fallbackRender } = this.props
-    const { error } = this.state
+	render() {
+		const { fallback, FallbackComponent, fallbackRender } = this.props;
+		const { error } = this.state;
 
-    if (error !== null) {
-      const fallbackProps: FallbackProps = {
-        error,
-        resetErrorBoundary: this.resetErrorBoundary,
-      }
+		if (error !== null) {
+			const fallbackProps: FallbackProps = {
+				error,
+				resetErrorBoundary: this.resetErrorBoundary,
+			};
 
-      if (React.isValidElement(fallback)) {
-        return fallback
-      }
+			if (React.isValidElement(fallback)) {
+				return fallback;
+			}
 
-      if (typeof fallbackRender === 'function') {
-        return (fallbackRender as typeof FallbackRender)(fallbackProps)
-      }
+			if (typeof fallbackRender === "function") {
+				return (fallbackRender as typeof FallbackRender)(fallbackProps);
+			}
 
-      if (FallbackComponent) {
-        return <FallbackComponent {...fallbackProps} />
-      }
+			if (FallbackComponent) {
+				return <FallbackComponent {...fallbackProps} />;
+			}
 
-      throw new Error(
-        'ErrorBoundary 组件需要传入 fallback, fallbackRender, FallbackComponent 其中一个',
-      )
-    }
+			throw new Error(
+				"ErrorBoundary 组件需要传入 fallback, fallbackRender, FallbackComponent 其中一个",
+			);
+		}
 
-    return this.props.children
-  }
+		return this.props.children;
+	}
 }
 
 function withErrorBoundary<P extends React.Component>(
-  Component: React.ComponentType<P>,
-  errorBoundaryProps: Props,
+	Component: React.ComponentType<P>,
+	errorBoundaryProps: Props,
 ): React.ComponentType<P> {
-  const Wrapped: React.ComponentType<P> = (props) => {
-    return (
-      <ErrorBoundary {...errorBoundaryProps}>
-        <Component {...props} />
-      </ErrorBoundary>
-    )
-  }
+	const Wrapped: React.ComponentType<P> = (props) => {
+		return (
+			<ErrorBoundary {...errorBoundaryProps}>
+				<Component {...props} />
+			</ErrorBoundary>
+		);
+	};
 
-  const name = Component.displayName || Component.name || 'Unknown'
-  Wrapped.displayName = `withErrorBoundary(${name})`
+	const name = Component.displayName || Component.name || "Unknown";
+	Wrapped.displayName = `withErrorBoundary(${name})`;
 
-  return Wrapped
+	return Wrapped;
 }
 
-export { ErrorBoundary, withErrorBoundary }
+export { ErrorBoundary, withErrorBoundary };

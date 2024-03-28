@@ -6,12 +6,12 @@
  * @FilePath: \empty-project\src\components\expenses.tsx
  * @Description: Edit......
  */
-import React from 'react'
+import React from "react";
 
 export default function Expenses() {
-  return (
-    <main style={{ padding: '1rem 0' }}>
-      <h2>Expenses</h2>
-    </main>
-  )
+	return (
+		<main style={{ padding: "1rem 0" }}>
+			<h2>Expenses</h2>
+		</main>
+	);
 }

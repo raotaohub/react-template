@@ -1,42 +1,37 @@
-import * as React from 'react'
-import Router from './routers/index'
-import { ErrorBoundary } from './components/common/ErrorBoundry/ErrorBoundry'
+import Router from "./routers/index";
+import { ErrorBoundary } from "./components/common/ErrorBoundry/ErrorBoundry";
+import { useEffect, useState } from "react";
 
 interface Props {
-  name?: string
+	name?: string;
 }
 
-const App: React.FC<Props> = (props) => {
-  return (
-    <div className="App">
-      <ErrorBoundary
-        FallbackComponent={(error) => {
-          return <span>{error?.error?.message}</span>
-        }}
-        onError={(error) => {
-          console.log(
-            JSON.stringify({
-              stack: error?.stack || '',
-              message: error?.message || '',
-            }),
-          )
-        }}
-      >
-        <Router />
-      </ErrorBoundary>
-    </div>
-  )
-}
+const App: React.FC<Props> = () => {
+	const [state] = useState(1);
 
-export default App
+	useEffect(() => {
+		console.log(state);
+	}, [state]);
 
-const worker = new Worker(new URL('./deep-thought.worker.js', import.meta.url))
-console.log('import.meta.url', import.meta.url)
-console.log('worker', worker)
+	return (
+		<div className="App">
+			<ErrorBoundary
+				FallbackComponent={(error) => {
+					return <span>{error?.error?.message}</span>;
+				}}
+				onError={(error) => {
+					console.log(
+						JSON.stringify({
+							stack: error?.stack || "",
+							message: error?.message || "",
+						}),
+					);
+				}}
+			>
+				<Router />
+			</ErrorBoundary>
+		</div>
+	);
+};
 
-worker.postMessage({
-  question: 'The Answer to the Ultimate Question of Life, The Universe, and Everything.',
-})
-worker.onmessage = ({ data: { answer } }) => {
-  console.log(answer)
-}
+export default App;
